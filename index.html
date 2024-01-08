@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SURWEB4YOU</title>
+    <style>
+        /* CSS untuk menengahkan elemen */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; /* Mengatur tata letak ke vertikal */
+            background-color: aqua;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            margin-bottom: 10px; /* Jarak antara tombol */
+        }
+
+        p {
+            font-size: 45px; /* Ubah ukuran teks sesuai keinginan Anda */
+        }
+
+        img {
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <p><b>Mau Mabar Sama Gua Gak?</b></p>
+    <img src="Gambar.jpg" alt="Gambar">
+    <div class="button-container">
+        <button onclick="arahkanKeHalaman()">YES</button>
+        <button onclick="arahkanKeHalaman()">NO</button>
+    </div>
+    
+    <script>
+        function arahkanKeHalaman() {
+            // Ganti URL dengan URL halaman tujuan
+            window.location.href = "page2.html";
+        }
+    </script>
+</body>
+</html>
