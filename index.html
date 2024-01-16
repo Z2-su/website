@@ -1,57 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SURWEB4YOU</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Game</title>
     <style>
-        /* CSS untuk menengahkan elemen */
-        body, html {
-            height: 100%;
-            margin: 0;
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column; /* Mengatur tata letak ke vertikal */
-            background-color: aqua;
+            height: 100vh;
+            margin: 0;
+            background-color: #f7f7f7;
         }
 
-        .button-container {
-            display: flex;
-            gap: 10px;
+        #game-container {
+            position: relative;
+            width: 600px;
+            height: 200px;
+            border: 1px solid #ccc;
+            overflow: hidden;
         }
 
-        button {
-            margin-bottom: 10px; /* Jarak antara tombol */
+        #dino {
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+            width: 40px;
+            height: 40px;
+            background-color: #4CAF50;
+            border-radius: 50%;
         }
 
-        p {
-            font-size: 45px; /* Ubah ukuran teks sesuai keinginan Anda */
+        .cactus {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            height: 40px;
+            background-color: #8B4513;
         }
-
-        img {
-            max-width: 400px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-    button {
-      width: 100px; /* Lebar tombol */
-      height: 50px; /* Tinggi tombol */
-      font-size: 20px; /* Ukuran font tombol */
-    }
     </style>
 </head>
 <body>
-    <p><b>P Mabar?</b></p>
-    <img src="Gambar.jpg" alt="Gambar">
-    <div class="button-container">
-        <button onclick="arahkanKeHalaman()">Gasss</button>
-        <button onclick="arahkanKeHalaman()">Skipp</button>
+    <div id="game-container">
+        <div id="dino"></div>
     </div>
-    
+
     <script>
-        function arahkanKeHalaman() {
-            // Ganti URL dengan URL halaman tujuan
-            window.location.href = "page2.html";
+        const gameContainer = document.getElementById('game-container');
+        const dino = document.getElementById('dino');
+        let isJumping = false;
+
+        document.addEventListener('keydown', jump);
+
+        function jump(event) {
+            if (event.code === 'Space' && !isJumping) {
+                isJumping = true;
+
+                let position = 0;
+                const jumpInterval = setInterval(() => {
+                    if (position === 150) {
+                        clearInterval(jumpInterval);
+
+                        const fallInterval = setInterval(() => {
+                            if (position === 0) {
+                                clearInterval(fallInterval);
+                                isJumping = false;
+                            } else {
+                                position -= 10;
+                                dino.style.bottom = position + 'px';
+                            }
+                        }, 20);
+                    } else {
+                        position += 10;
+                        dino.style.bottom = position + 'px';
+                    }
+                }, 20);
+            }
         }
+
+        function createCactus() {
+            const cactus = document.createElement('div');
+            cactus.classList.add('cactus');
+            gameContainer.appendChild(cactus);
+
+            let cactusPosition = 600;
+            cactus.style.left = cactusPosition + 'px';
+
+            const moveCactusInterval = setInterval(() => {
+                if (cactusPosition < -20) {
+                    clearInterval(moveCactusInterval);
+                    gameContainer.removeChild(cactus);
+                } else {
+                    cactusPosition -= 5;
+                    cactus.style.left = cactusPosition + 'px';
+
+                    if (
+                        cactusPosition > 0 &&
+                        cactusPosition < 60 &&
+                        position < 60
+                    ) {
+                        // Collision detection
+                        alert('Game Over!');
+                        clearInterval(moveCactusInterval);
+                        location.reload(); // Refresh the page to restart the game
+                    }
+                }
+            }, 20);
+        }
+
+        setInterval(createCactus, 2000); // Create a new cactus every 2 seconds
     </script>
 </body>
 </html>
