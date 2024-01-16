@@ -26,18 +26,25 @@
             position: absolute;
             bottom: 0;
             left: 50px;
-            width: 40px;
-            height: 40px;
-            background-color: #4CAF50;
-            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background: url('dino.png') center/cover no-repeat;
         }
 
         .cactus {
             position: absolute;
             bottom: 0;
-            width: 20px;
-            height: 40px;
-            background-color: #8B4513;
+            width: 30px;
+            height: 50px;
+            background: url('cactus.png') center/cover no-repeat;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 18px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -45,11 +52,14 @@
     <div id="game-container">
         <div id="dino"></div>
     </div>
+    <div id="score">Score: 0</div>
 
     <script>
         const gameContainer = document.getElementById('game-container');
         const dino = document.getElementById('dino');
+        const scoreElement = document.getElementById('score');
         let isJumping = false;
+        let score = 0;
 
         document.addEventListener('keydown', jump);
 
@@ -91,6 +101,8 @@
                 if (cactusPosition < -20) {
                     clearInterval(moveCactusInterval);
                     gameContainer.removeChild(cactus);
+                    score += 10;
+                    updateScore();
                 } else {
                     cactusPosition -= 5;
                     cactus.style.left = cactusPosition + 'px';
@@ -100,16 +112,19 @@
                         cactusPosition < 60 &&
                         position < 60
                     ) {
-                        // Collision detection
-                        alert('Game Over!');
+                        alert('Game Over! Score: ' + score);
                         clearInterval(moveCactusInterval);
-                        location.reload(); // Refresh the page to restart the game
+                        location.reload();
                     }
                 }
             }, 20);
         }
 
-        setInterval(createCactus, 2000); // Create a new cactus every 2 seconds
+        function updateScore() {
+            scoreElement.textContent = 'Score: ' + score;
+        }
+
+        setInterval(createCactus, 2000);
     </script>
 </body>
 </html>
